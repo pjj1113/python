@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .hide{
+            display: none;
+        }
+        .shade{
+            position: fixed;
+            top:0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 100;
+        }
+        .add-modal{
+            position: fixed;
+            height: 300px;
+            width: 400px;
+            top:100px;
+            left: 50%;
+            z-index: 101;
+            border: 1px solid azure;
+            background-color: white;
+            margin-left: -200px;
+
+        }
+    </style>
+</head>
+<body>
+
+ <h1>主机列表</h1>
+
+<div>
+    <input type="button"value="添加" id="add_host">
+</div>
+ <table border="1">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>主机名</th>
+                <th>IP</th>
+                <th>端口</th>
+                <th>业务名称</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in v1 %}
+             <tr host-id = {{ row.nid }} bid={{ row.b_id }}>
+                <th>{{ forloop.counter }}</th>
+                 <th>{{ row.hostname }}</th>
+                <th>{{ row.ip }}</th>
+                <th>{{ row.port }}</th>
+                <th>{{ row.b.caption }}</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <h1>主机列表</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>主机名</th>
+                <th>业务名称</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in v2 %}
+             <tr host-id = {{ row.nid }} bid={{ row.b_id }}>
+                <th>{{ row.hostname }}</th>
+                <th>{{ row.b__caption }}</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>主机列表</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>主机名</th>
+                <th>业务名称</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in v3 %}
+             <tr host-id = {{ row.0 }} bid={{ row.2 }}>
+                <th>{{ row.1 }}</th>
+                <th>{{ row.3 }}</th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="shade hide"></div>
+    <div class = "add-modal hide">
+
+        <form method="POST" action="/host/">
+        <div class="group">
+            <input id="host" type="text" placeholder="主机名" name="hostname">
+        </div>
+        <div class="group">
+            <input id="ip" type="text" placeholder="IP" name="IP">
+        </div>
+        <div class="group">
+            <input id="port" type="text" placeholder="端口" name="port">
+        </div>
+        <div class="group">
+            <select id="sel" name="b_id">
+                {% for op in b_list %}
+                    <option value="{{ op.id }}">{{ op.caption }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" value="提交">
+        <a id = "ajax_submit" style="display: inline-block;padding: 5px;background-color: darkkhaki">悄悄发消息</a>
+        <span id = "errn_msg" style="color: red"></span>
+        </form>
+        <input id="cancel" type="submit" value="取消">
+    </div>
+    <script src="/static/jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            $('#add_host').click(function () {
+                $('.shade,.add-modal').removeClass('hide');
+
+            });
+
+            $('#cancel').click(function () {
+                $('.shade,.add-modal').addClass('hide');
+            });
+            $('#ajax_submit').click(function () {
+                $.ajax({
+                    url:"/test_ajax/",
+                    type:"POST",
+                    data:{'hostname':$('#host').val(),'ip':$('#ip').val(),'port':$('#port').val(),'b_id':$('#sel').val()},
+                    success:function (data) {
+                       var obj = JSON.parse(data)
+                        if(obj.status){
+                            location.reload();
+                        }else{
+                            $("#errn_msg").text(obj.error);
+                        }
+
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>

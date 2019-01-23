@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .page{
+            display: inline-block;
+            background-color: darkkhaki;
+            padding:5px;
+            margin: 5px;
+        }
+        .page.active{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        {% for item in li %}
+            {% include 'li.html' %}
+        {% endfor %}
+    </ul>
+<div>
+    {{ page_str }}
+</div>
+</body>
+</html>

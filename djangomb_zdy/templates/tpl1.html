@@ -1,0 +1,13 @@
+{% extends 'master.html' %}
+
+{% block conten %}
+<div>
+        <h1>欢迎您的到来</h1>
+            <ul>
+                {% for i in u %}
+                    <li>{{ i }}</li>
+                {% endfor %}
+            </ul>
+    </div>
+    {% include 'tag.html' %}
+{% endblock %}

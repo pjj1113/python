@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/{{ url'indexx' }}/" method="POST">
+        <input type="text" name="user">
+        <P></p>
+        <input type="text" name="email">
+        <br>
+        <input type="submit" value="提交">
+    </form>
+    <ul>
+        {% for k,roe in user_dict.items %}
+        <li><a target="_blank" href="/detail-{{ k }}.html">{{roe.name}}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
